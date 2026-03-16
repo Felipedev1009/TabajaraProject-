@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Produtos</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        /* SCROLLBAR ESTILIZADA */
+        *::-webkit-scrollbar { width: 6px; background: rgba(30, 30, 58, 0.5); }
+        *::-webkit-scrollbar-track { background: transparent; }
+        *::-webkit-scrollbar-thumb { 
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4); 
+            border-radius: 10px;
+        }
+        *::-webkit-scrollbar-thumb:hover { background: linear-gradient(135deg, #a78bfa, #0891b2); }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 30px 20px 50px;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(15, 15, 35, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(139, 92, 246, 0.15);
+            animation: containerRise 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @keyframes containerRise {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            background: linear-gradient(135deg, #ffffff 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            animation: titleGlow 2.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.3)); }
+            to { filter: drop-shadow(0 0 16px rgba(139, 92, 246, 0.6)); }
+        }
+
+        .btn-add {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 14px 28px;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            animation: btnFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes btnFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        .btn-add:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.5);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: rgba(25, 25, 55, 0.8);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            animation: tableSlide 1.2s ease forwards;
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        @keyframes tableSlide {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        th {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            color: #f1f5f9;
+            padding: 18px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(139, 92, 246, 0.2);
+        }
+
+        th:first-child { border-radius: 16px 0 0 0; }
+        th:last-child { border-radius: 0 16px 0 0; }
+
+        td {
+            padding: 20px 16px;
+            border-bottom: 1px solid rgba(55, 65, 81, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        tr:hover td {
+            background: rgba(139, 92, 246, 0.1);
+            transform: scale(1.01);
+            box-shadow: inset 0 0 20px rgba(139, 92, 246, 0.05);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+            border-radius: 0 0 16px 16px;
+        }
+
+        tr:last-child td:first-child { border-radius: 0 0 0 16px; }
+        tr:last-child td:last-child { border-radius: 0 0 16px 0; }
+
+        .actions {
+            white-space: nowrap;
+        }
+
+        .btn-edit, .btn-delete {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 0 4px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #8b5cf6;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            padding: 12px 24px;
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            text-align: center;
+            animation: linkPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes linkPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
+        }
+
+        .back-link:hover {
+            background: rgba(139, 92, 246, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #cbd5e1;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            body { padding: 15px 10px 40px; }
+            .container { 
+                padding: 30px 20px 40px; 
+                border-radius: 16px;
+                margin: 5px auto;
+            }
+            h1 { font-size: 2.2rem; }
+            table { 
+                font-size: 0.85rem; 
+                overflow-x: auto;
+                display: block;
+                white-space: nowrap;
+            }
+            th, td { padding: 12px 8px; }
+            .btn-add { 
+                padding: 12px 20px; 
+                font-size: 1rem;
+            }
+        }
+
+        /* Loading suave */
+        .container * {
+            animation-fill-mode: both;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Listagem de Produtos</h1>
+            <a th:href="@{/produtos/criar}" class="btn-add">➕ Adicionar Novo Produto</a>
+        </div>
+
+        <div th:if="${produtos.isEmpty()}">
+            <div class="empty-state">
+                <h3>📦 Nenhum produto cadastrado</h3>
+                <p>Adicione o primeiro produto clicando no botão acima!</p>
+            </div>
+        </div>
+
+        <table th:if="${!produtos.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Unidade</th>
+                    <th>Marca</th>
+                    <th>Fornecedor</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="produto, iterStat : ${produtos}">
+                    <td th:text="${produto.idProduto}">ID</td>
+                    <td th:text="${produto.descricaoProduto}">Descrição</td>
+                    <td th:text="${produto.valorProduto}">R$ 0,00</td>
+                    <td th:text="${produto.unidadeProduto}">Unidade</td>
+                    <td th:text="${produto.marcaProduto}">Marca</td>
+                    <td th:text="${produto.fornecedor?.nomeFornecedor}">Fornecedor</td>
+                    <td class="actions">
+                        <a th:href="@{/produtos/editar/{id}(id=${produto.idProduto})}" 
+                           class="btn-edit">Editar</a>
+                        <a th:href="@{/produtos/excluir/{id}(id=${produto.idProduto})}" 
+                           class="btn-delete"
+                           onclick="return confirm('Tem certeza que deseja excluir este produto?\n\nID: [[${produto.idProduto}]] - [[${produto.descricaoProduto}]]');">
+                           Excluir
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/tabajara}" class="back-link">Voltar para Página Inicial</a>
+    </div>
+</body>
+</html>

@@ -14,6 +14,6 @@ public class TabajaraController {
     
     @GetMapping
     public String index(Model model){
-        return "/index";
+        return "/home";
     }
 }

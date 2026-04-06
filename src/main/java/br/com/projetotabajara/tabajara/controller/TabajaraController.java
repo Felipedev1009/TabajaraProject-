@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping("/tabajara")
-
 public class TabajaraController {
     
-    @GetMapping
+    @GetMapping({"/", "/tabajara", "/index"})
     public String index(Model model){
         return "/home";
     }

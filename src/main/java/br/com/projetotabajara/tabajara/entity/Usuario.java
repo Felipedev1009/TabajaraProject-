@@ -1,5 +1,7 @@
 package br.com.projetotabajara.tabajara.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,4 +36,8 @@ public class Usuario {
     private String senhaUsuario;
 
     private String role = "ROLE_USER";
+
+    private String resetToken;
+
+    private LocalDateTime tokenExpiracao;
 }

@@ -330,8 +330,7 @@
             <input type="text" name="marcaProduto" th:field="*{marcaProduto}" placeholder="Nome da marca" />
  
             <label for="fornecedor">Fornecedor:</label>
-            <select th:field="*{fornecedor}">
-                <option value="" disabled selected>Selecione o fornecedor</option>
+            <select th:field="*{fornecedor.idFornecedor}">
                 <option th:each="fornecedor : ${fornecedores}"
                         th:text="${fornecedor.nomeFornecedor}"
                         th:value="${fornecedor.idFornecedor}">

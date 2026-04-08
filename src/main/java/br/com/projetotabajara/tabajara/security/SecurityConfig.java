@@ -21,12 +21,10 @@ public class SecurityConfig {
         "/",
         "/tabajara",
         "/index",
-        "/fornecedores/**",
         "/usuarios/criar",
         "/usuarios/salvar",
         "/css/**",
         "/images/**",
-        "/usuarios/**",
         "/esqueci-senha/**",
         "/redefinir-senha/**"
         )

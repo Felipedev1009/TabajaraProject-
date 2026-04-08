@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Senha</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e2e8f0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(15, 15, 35, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ffffff, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 1rem;
+            margin-bottom: 25px;
+            color: #94a3b8;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        input {
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            background: rgba(30, 30, 58, 0.6);
+            color: white;
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        input:focus {
+            border-color: #8b5cf6;
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .msg {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .sucesso {
+            color: #10b981;
+        }
+
+        .erro {
+            color: #ef4444;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Recuperar Senha</h1>
+    <h2>Digite seu email para receber o link de recuperação</h2>
+
+    <p th:if="${mensagem}" th:text="${mensagem}" class="msg sucesso"></p>
+    <p th:if="${erro}" th:text="${erro}" class="msg erro"></p>
+
+    <form th:action="@{/esqueci-senha}" method="post">
+        <label for="email">E-mail</label>
+        <input type="email" name="email" id="email" required placeholder="Seu endereço de email">
+
+        <button type="submit">Redefinir minha senha</button>
+    </form>
+</div>
+
+</body>
+</html>

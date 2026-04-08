@@ -12,6 +12,6 @@ public class TabajaraController {
     
     @GetMapping({"/", "/tabajara", "/index"})
     public String index(Model model){
-        return "/home";
+        return "index";
     }
 }

@@ -337,7 +337,14 @@
                 </option>
             </select>
  
-            <input type="submit" value="Salvar Produto 🚀">
+            <div style="display:flex;gap:12px;margin-top:8px;">
+                <!-- Ajuste a rota abaixo: @{/} ou @{/home} conforme seu controller -->
+                <a th:href="@{/home}" role="button"
+                   style="flex:1; text-align:center; padding:16px 20px; border-radius:16px; background:rgba(255,255,255,0.06); color:#fff; text-decoration:none; font-weight:700;">
+                    Voltar
+                </a>
+                <input type="submit" value="Salvar Produto 🚀" style="flex:1; padding:16px 20px; border-radius:16px;">
+            </div>
  
         </form>
     </div>
